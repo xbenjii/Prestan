@@ -98,8 +98,10 @@ var Preston = (function () {
             }
             requestData.postXml = this.build(data);
             ['id_shop', 'id_group_shop'].forEach(function (param) {
-                if (options[param]) {
-                    requestOptions[param] = options[param];
+                for (var key in options) {
+                    if (key.indexOf(param) !== -1) {
+                        requestOptions[key] = options[key];
+                    }
                 }
             });
             var query = qs.stringify(requestOptions);
@@ -124,8 +126,10 @@ var Preston = (function () {
                 delete options.id;
             }
             ['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'].forEach(function (param) {
-                if (options[param]) {
-                    requestOptions[param] = options[param];
+                for (var key in options) {
+                    if (key.indexOf(param) !== -1) {
+                        requestOptions[key] = options[key];
+                    }
                 }
             });
             var query = qs.stringify(requestOptions);
@@ -156,8 +160,10 @@ var Preston = (function () {
             delete options.id;
             requestData.putXml = this.build(data);
             ['id_shop', 'id_group_shop'].forEach(function (param) {
-                if (options[param]) {
-                    requestOptions[param] = options[param];
+                for (var key in options) {
+                    if (key.indexOf(param) !== -1) {
+                        requestOptions[key] = options[key];
+                    }
                 }
             });
             var query = qs.stringify(requestOptions);
@@ -187,8 +193,10 @@ var Preston = (function () {
             }
             delete options.id;
             ['id_shop', 'id_group_shop'].forEach(function (param) {
-                if (options[param]) {
-                    requestOptions[param] = options[param];
+                for (var key in options) {
+                    if (key.indexOf(param) !== -1) {
+                        requestOptions[key] = options[key];
+                    }
                 }
             });
             var query = qs.stringify(requestOptions);
@@ -213,8 +221,10 @@ var Preston = (function () {
                 delete options.id;
             }
             ['filter', 'display', 'sort', 'limit'].forEach(function (param) {
-                if (options[param]) {
-                    requestOptions[param] = options[param];
+                for (var key in options) {
+                    if (key.indexOf(param) !== -1) {
+                        requestOptions[key] = options[key];
+                    }
                 }
             });
             var query = qs.stringify(requestOptions);

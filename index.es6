@@ -52,8 +52,10 @@ class Preston {
         }
         requestData.postXml = this.build(data);
         ['id_shop', 'id_group_shop'].forEach(param => {
-            if(options[param]) {
-                requestOptions[param] = options[param];
+            for(let key in options) {
+                if(key.indexOf(param) !== -1) {
+                    requestOptions[key] = options[key];
+                }
             }
         });
         let query = qs.stringify(requestOptions);
@@ -70,8 +72,10 @@ class Preston {
             delete options.id;
         }
         ['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'].forEach(param => {
-            if(options[param]) {
-                requestOptions[param] = options[param];
+            for(let key in options) {
+                if(key.indexOf(param) !== -1) {
+                    requestOptions[key] = options[key];
+                }
             }
         });
         let query = qs.stringify(requestOptions);
@@ -94,8 +98,10 @@ class Preston {
         delete options.id;
         requestData.putXml = this.build(data);
         ['id_shop', 'id_group_shop'].forEach(param => {
-            if(options[param]) {
-                requestOptions[param] = options[param];
+            for(let key in options) {
+                if(key.indexOf(param) !== -1) {
+                    requestOptions[key] = options[key];
+                }
             }
         });
         let query = qs.stringify(requestOptions);
@@ -117,8 +123,10 @@ class Preston {
         }
         delete options.id;
         ['id_shop', 'id_group_shop'].forEach(param => {
-            if(options[param]) {
-                requestOptions[param] = options[param];
+            for(let key in options) {
+                if(key.indexOf(param) !== -1) {
+                    requestOptions[key] = options[key];
+                }
             }
         });
         let query = qs.stringify(requestOptions);
@@ -135,8 +143,10 @@ class Preston {
             delete options.id;
         }
         ['filter', 'display', 'sort', 'limit'].forEach(param => {
-            if(options[param]) {
-                requestOptions[param] = options[param];
+            for(let key in options) {
+                if(key.indexOf(param) !== -1) {
+                    requestOptions[key] = options[key];
+                }
             }
         });
         let query = qs.stringify(requestOptions);
