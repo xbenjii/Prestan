@@ -1,0 +1,24 @@
+{
+  "name": "prestan",
+  "version": "0.0.4",
+  "description": "A node module which consumes the PrestaShop API",
+  "homepage": "https://github.com/xbenjii/Prestan",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xbenjii/Prestan.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "prestashop"
+  ],
+  "author": "Benjamin Fortune",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^2.9.30",
+    "request-promise": "^0.4.2",
+    "xml2js": "^0.4.9"
+  }
+}
