@@ -48,9 +48,13 @@ var Preston = (function () {
     _createClass(Preston, [{
         key: 'executeRequest',
         value: function executeRequest(method, url) {
+            var _this = this;
+
             var options = arguments[2] === undefined ? {} : arguments[2];
 
+            this.debug('Requesting[' + method + '] ' + url + ' with options ' + JSON.stringify(options));
             return request[method](url, options).auth(this.key)['catch'](function (error) {
+                _this.debug('Error: [' + error + ']');
                 switch (error.statusCode) {
                     case 400:
                         throw new Error('No content');
@@ -86,7 +90,7 @@ var Preston = (function () {
     }, {
         key: 'add',
         value: function add(resource, data) {
-            var _this = this;
+            var _this2 = this;
 
             var options = arguments[2] === undefined ? {} : arguments[2];
 
@@ -109,13 +113,13 @@ var Preston = (function () {
                 url += '?' + query;
             }
             return this.executeRequest('post', url, { form: requestData }).then(function (response) {
-                return _this.parse(response);
+                return _this2.parse(response);
             });
         }
     }, {
         key: 'get',
         value: function get(resource) {
-            var _this2 = this;
+            var _this3 = this;
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
@@ -137,13 +141,13 @@ var Preston = (function () {
                 url += '?' + query;
             }
             return this.executeRequest('get', url).then(function (response) {
-                return _this2.parse(response);
+                return _this3.parse(response);
             });
         }
     }, {
         key: 'edit',
         value: function edit(resource) {
-            var _this3 = this;
+            var _this4 = this;
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
@@ -171,13 +175,13 @@ var Preston = (function () {
                 url += '?' + query;
             }
             return this.executeRequest('put', url, { form: requestData }).then(function (response) {
-                return _this3.parse(response);
+                return _this4.parse(response);
             });
         }
     }, {
         key: 'delete',
         value: function _delete(resource) {
-            var _this4 = this;
+            var _this5 = this;
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
@@ -204,13 +208,13 @@ var Preston = (function () {
                 url += '?' + query;
             }
             return this.executeRequest('delete', url).then(function (response) {
-                return _this4.parse(response);
+                return _this5.parse(response);
             });
         }
     }, {
         key: 'head',
         value: function head(resource) {
-            var _this5 = this;
+            var _this6 = this;
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
@@ -232,13 +236,20 @@ var Preston = (function () {
                 url += '?' + query;
             }
             return this.executeRequest('head', url).then(function (response) {
-                return _this5.parse(response);
+                return _this6.parse(response);
             });
         }
     }, {
         key: 'resource',
         value: function resource(_resource) {
             return /^https?/.test(_resource) ? _resource : this.shopUrl + '/api/' + _resource + '/';
+        }
+    }, {
+        key: 'debug',
+        value: function debug(message) {
+            if (this.options.debug) {
+                console.log(message);
+            }
         }
     }]);
 

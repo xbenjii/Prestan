@@ -20,7 +20,9 @@ class Preston {
         this.options = options;
     }
     executeRequest(method, url, options = {}) {
+        this.debug(`Requesting[${method}] ${url} with options ${JSON.stringify(options)}`);
         return request[method](url, options).auth(this.key).catch(error => {
+            this.debug(`Error: [${error}]`);
             switch(error.statusCode) {
                 case 400: throw new Error('No content');
                 case 401: throw new Error('Unauthorized');
@@ -157,6 +159,11 @@ class Preston {
     }
     resource(resource) {
         return /^https?/.test(resource) ? resource : `${this.shopUrl}/api/${resource}/`;
+    }
+    debug(message) {
+        if(this.options.debug) {
+            console.log(message);
+        }
     }
 }
 
