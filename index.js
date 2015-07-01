@@ -108,7 +108,7 @@ var Preston = (function () {
                     }
                 }
             });
-            var query = qs.stringify(requestOptions);
+            var query = this.stringify(requestOptions);
             if (query.length) {
                 url += '?' + query;
             }
@@ -136,7 +136,7 @@ var Preston = (function () {
                     }
                 }
             });
-            var query = qs.stringify(requestOptions);
+            var query = this.stringify(requestOptions);
             if (query.length) {
                 url += '?' + query;
             }
@@ -170,7 +170,7 @@ var Preston = (function () {
                     }
                 }
             });
-            var query = qs.stringify(requestOptions);
+            var query = this.stringify(requestOptions);
             if (query.length) {
                 url += '?' + query;
             }
@@ -203,7 +203,7 @@ var Preston = (function () {
                     }
                 }
             });
-            var query = qs.stringify(requestOptions);
+            var query = this.stringify(requestOptions);
             if (query.length) {
                 url += '?' + query;
             }
@@ -231,7 +231,7 @@ var Preston = (function () {
                     }
                 }
             });
-            var query = qs.stringify(requestOptions);
+            var query = this.stringify(requestOptions);
             if (query.length) {
                 url += '?' + query;
             }
@@ -250,6 +250,15 @@ var Preston = (function () {
             if (this.options.debug) {
                 console.log(message);
             }
+        }
+    }, {
+        key: 'stringify',
+        value: function stringify(obj) {
+            return qs.stringify(obj, null, null, {
+                encodeURIComponent: function encodeURIComponent(string) {
+                    return string;
+                }
+            });
         }
     }]);
 
