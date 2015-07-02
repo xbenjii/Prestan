@@ -3,13 +3,31 @@
 
 ## Example
 ```
-var Prestan = require('prestan');
+var Prestan = require('prestan'),
+    prestan = new Prestan('http://myPrestaShopSiteUrl.com', 'MYAPIKEY000000');
 
-var prestan = new Prestan('http://myshop.co.uk', 'MYAPIKEY');
+prestan.get('orders').then(function(response) {
+    console.log(response);
+}).catch(function(errors) {
+    console.log(errors);
+});
 
-prestan.get('categories', {id: 1}).then(function(response) {
-	console.log(response);
-}).catch(function(error) {
-	console.log(error);
+//Or
+
+prestan.get('orders', {id: 1}).then(function(response) {
+    console.log(response);
+}).catch(function(errors) {
+    console.log(errors);
+});
+
+//And you can even use the filter querystrings
+
+prestan.get('orders', {
+    'display': 'full',
+    'filter[id]': 1
+}).then(function(response) {
+    console.log(response);
+}).catch(function(errors) {
+    console.log(errors);
 });
 ```
