@@ -22,15 +22,12 @@ class Preston {
     executeRequest(method, url, options = {}) {
         this.debug(`Requesting[${method}] ${url} with options ${JSON.stringify(options)}`);
         return request[method](url, options).auth(this.key).catch(error => {
-            this.debug(`Error: [${error}]`);
-            switch(error.statusCode) {
-                case 400: throw new Error('No content');
-                case 401: throw new Error('Unauthorized');
-                case 404: throw new Error('Not found');
-                case 405: throw new Error('Method not allowed');
-                case 500: throw new Error('Internal server error');
-                default: throw new Error(`Unexpected status code: ${error.statusCode}`);
-            }
+            this.debug(`Error: [${error.error}]`);
+            return this.parse(error.error).then(parsedError => {
+                let thrownError = new Error(parsedError.prestashop.errors.error.message);
+                thrownError.code = parsedError.prestashop.errors.error.code;
+                throw thrownError;
+            });
         });
     }
     parse(response) {
