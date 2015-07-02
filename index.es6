@@ -154,7 +154,7 @@ class Preston {
         }
         return this.executeRequest('head', url).then(response => this.parse(response));
     }
-    resource(resource) {
+    resource(resource = '') {
         return /^https?/.test(resource) ? resource : `${this.shopUrl}/api/${resource}/`;
     }
     debug(message) {

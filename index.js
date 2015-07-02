@@ -232,7 +232,9 @@ var Preston = (function () {
         }
     }, {
         key: 'resource',
-        value: function resource(_resource) {
+        value: function resource() {
+            var _resource = arguments[0] === undefined ? '' : arguments[0];
+
             return /^https?/.test(_resource) ? _resource : this.shopUrl + '/api/' + _resource + '/';
         }
     }, {

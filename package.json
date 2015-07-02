@@ -1,6 +1,6 @@
 {
   "name": "prestan",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A node module which consumes the PrestaShop API",
   "homepage": "https://github.com/xbenjii/Prestan",
   "repository": {
