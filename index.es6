@@ -164,7 +164,7 @@ class Preston {
     }
     stringify(obj) {
         return qs.stringify(obj, null, null, {
-            encodeURIComponent: function(string) {
+            encodeURIComponent: string => {
                 return string;
             }
         });
