@@ -2,7 +2,7 @@
 #### A node module to interact and consume the PrestaShop shop API.
 
 ## Example
-```
+``` JavaScript
 var Prestan = require('prestan'),
     prestan = new Prestan('http://myPrestaShopSiteUrl.com', 'MYAPIKEY000000');
 
