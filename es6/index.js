@@ -1,6 +1,6 @@
 'use strict';
 
-import qs from 'querystring';
+import qs from 'qs';
 import xml2js from 'xml2js';
 import Promise from 'bluebird';
 import request from 'request-promise';
@@ -163,11 +163,7 @@ class Preston {
         }
     }
     stringify(obj) {
-        return qs.stringify(obj, null, null, {
-            encodeURIComponent: string => {
-                return string;
-            }
-        });
+        return qs.stringify(obj);
     }
 }
 

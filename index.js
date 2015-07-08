@@ -10,9 +10,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _querystring = require('querystring');
+var _qs = require('qs');
 
-var _querystring2 = _interopRequireDefault(_querystring);
+var _qs2 = _interopRequireDefault(_qs);
 
 var _xml2js = require('xml2js');
 
@@ -247,11 +247,7 @@ var Preston = (function () {
     }, {
         key: 'stringify',
         value: function stringify(obj) {
-            return _querystring2['default'].stringify(obj, null, null, {
-                encodeURIComponent: function encodeURIComponent(string) {
-                    return string;
-                }
-            });
+            return _qs2['default'].stringify(obj);
         }
     }]);
 
