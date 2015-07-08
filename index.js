@@ -6,27 +6,27 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _querystring = require('querystring');
 
-var qs = _interopRequireWildcard(_querystring);
+var _querystring2 = _interopRequireDefault(_querystring);
 
 var _xml2js = require('xml2js');
 
-var xml2js = _interopRequireWildcard(_xml2js);
+var _xml2js2 = _interopRequireDefault(_xml2js);
 
 var _bluebird = require('bluebird');
 
-var Promise = _interopRequireWildcard(_bluebird);
+var _bluebird2 = _interopRequireDefault(_bluebird);
 
 var _requestPromise = require('request-promise');
 
-var request = _interopRequireWildcard(_requestPromise);
+var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
-var parseString = Promise.promisify(xml2js.parseString);
+var parseString = _bluebird2['default'].promisify(_xml2js2['default'].parseString);
 
 var Preston = (function () {
     function Preston(shopUrl, key) {
@@ -53,7 +53,7 @@ var Preston = (function () {
             var options = arguments[2] === undefined ? {} : arguments[2];
 
             this.debug('Requesting[' + method + '] ' + url + ' with options ' + JSON.stringify(options));
-            return request[method](url, options).auth(this.key)['catch'](function (error) {
+            return _requestPromise2['default'][method](url, options).auth(this.key)['catch'](function (error) {
                 _this.debug('Error: [' + error.error + ']');
                 return _this.parse(error.error).then(function (parsedError) {
                     var thrownError = new Error(parsedError.prestashop.errors.error.message);
@@ -75,7 +75,7 @@ var Preston = (function () {
     }, {
         key: 'build',
         value: function build(data) {
-            var builder = new xml2js.Builder();
+            var builder = new _xml2js2['default'].Builder();
             return builder.buildObject(data);
         }
     }, {
@@ -88,7 +88,7 @@ var Preston = (function () {
             var url = this.resource(resource),
                 requestOptions = {},
                 requestData = {};
-            if (!data) {
+            if (!data || typeof data !== 'object') {
                 throw new Error('No data specified to send, should be an object');
             }
             requestData.postXml = this.build(data);
@@ -247,7 +247,7 @@ var Preston = (function () {
     }, {
         key: 'stringify',
         value: function stringify(obj) {
-            return qs.stringify(obj, null, null, {
+            return _querystring2['default'].stringify(obj, null, null, {
                 encodeURIComponent: function encodeURIComponent(string) {
                     return string;
                 }

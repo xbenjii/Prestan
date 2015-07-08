@@ -1,9 +1,9 @@
 'use strict';
 
-import * as qs from 'querystring';
-import * as xml2js from 'xml2js';
-import * as Promise from 'bluebird';
-import * as request from 'request-promise';
+import qs from 'querystring';
+import xml2js from 'xml2js';
+import Promise from 'bluebird';
+import request from 'request-promise';
 
 let parseString = Promise.promisify(xml2js.parseString);
 
@@ -46,7 +46,7 @@ class Preston {
         let url = this.resource(resource),
             requestOptions = {},
             requestData = {};
-        if(!data) {
+        if(!data || typeof data !== 'object') {
             throw new Error('No data specified to send, should be an object');
         }
         requestData.postXml = this.build(data);
