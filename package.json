@@ -1,6 +1,6 @@
 {
   "name": "prestan",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A node module which consumes the PrestaShop API",
   "homepage": "https://github.com/xbenjii/Prestan",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel es6/index.js --out-file index.js"
   },
   "keywords": [
     "prestashop"
@@ -20,5 +20,8 @@
     "bluebird": "^2.9.30",
     "request-promise": "^0.4.2",
     "xml2js": "^0.4.9"
+  },
+  "devDependencies": {
+    "babel": "^5.6.14"
   }
 }
