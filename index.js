@@ -86,20 +86,13 @@ var Preston = (function () {
             var options = arguments[2] === undefined ? {} : arguments[2];
 
             var url = this.resource(resource),
-                requestOptions = {},
                 requestData = {};
             if (!data || typeof data !== 'object') {
                 throw new Error('No data specified to send, should be an object');
             }
             requestData.postXml = this.build(data);
-            ['id_shop', 'id_group_shop'].forEach(function (param) {
-                for (var key in options) {
-                    if (key.indexOf(param) !== -1) {
-                        requestOptions[key] = options[key];
-                    }
-                }
-            });
-            var query = this.stringify(requestOptions);
+            this.checkKeys(['id_shop', 'id_group_shop'], options);
+            var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
             }
@@ -114,20 +107,13 @@ var Preston = (function () {
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
-            var url = this.resource(resource),
-                requestOptions = {};
+            var url = this.resource(resource);
             if (options.id) {
                 url += options.id;
                 delete options.id;
             }
-            ['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'].forEach(function (param) {
-                for (var key in options) {
-                    if (key.indexOf(param) !== -1) {
-                        requestOptions[key] = options[key];
-                    }
-                }
-            });
-            var query = this.stringify(requestOptions);
+            this.checkKeys(['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'], options);
+            var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
             }
@@ -143,7 +129,6 @@ var Preston = (function () {
             var options = arguments[1] === undefined ? {} : arguments[1];
 
             var url = this.resource(resource),
-                requestOptions = {},
                 requestData = {};
             if (!data || typeof data !== 'object') {
                 throw new Error('No data specified to send, should be an object');
@@ -154,14 +139,8 @@ var Preston = (function () {
             url += options.id;
             delete options.id;
             requestData.putXml = this.build(data);
-            ['id_shop', 'id_group_shop'].forEach(function (param) {
-                for (var key in options) {
-                    if (key.indexOf(param) !== -1) {
-                        requestOptions[key] = options[key];
-                    }
-                }
-            });
-            var query = this.stringify(requestOptions);
+            this.checkKeys(['id_shop', 'id_group_shop'], options);
+            var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
             }
@@ -176,8 +155,7 @@ var Preston = (function () {
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
-            var url = this.resource(resource),
-                requestOptions = {};
+            var url = this.resource(resource);
             if (!options.id) {
                 throw new Error('Id not specified');
             }
@@ -187,14 +165,8 @@ var Preston = (function () {
                 url += options.id;
             }
             delete options.id;
-            ['id_shop', 'id_group_shop'].forEach(function (param) {
-                for (var key in options) {
-                    if (key.indexOf(param) !== -1) {
-                        requestOptions[key] = options[key];
-                    }
-                }
-            });
-            var query = this.stringify(requestOptions);
+            this.checkKeys(['id_shop', 'id_group_shop'], options);
+            var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
             }
@@ -209,25 +181,29 @@ var Preston = (function () {
 
             var options = arguments[1] === undefined ? {} : arguments[1];
 
-            var url = this.resource(resource),
-                requestOptions = {};
+            var url = this.resource(resource);
             if (options.id) {
                 url += options.id;
                 delete options.id;
             }
-            ['filter', 'display', 'sort', 'limit'].forEach(function (param) {
-                for (var key in options) {
-                    if (key.indexOf(param) !== -1) {
-                        requestOptions[key] = options[key];
-                    }
-                }
-            });
-            var query = this.stringify(requestOptions);
+            this.checkKeys(['filter', 'display', 'sort', 'limit'], options);
+            var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
             }
             return this.executeRequest('head', url).then(function (response) {
                 return _this6.parse(response);
+            });
+        }
+    }, {
+        key: 'checkKeys',
+        value: function checkKeys(keys, options) {
+            Object.keys(options).filter(function (k) {
+                return keys.every(function (x) {
+                    return ! ~k.indexOf(x);
+                });
+            }).forEach(function (k) {
+                return delete options[k];
             });
         }
     }, {

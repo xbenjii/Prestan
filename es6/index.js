@@ -44,40 +44,26 @@ class Preston {
     }
     add(resource, data, options = {}) {
         let url = this.resource(resource),
-            requestOptions = {},
             requestData = {};
         if(!data || typeof data !== 'object') {
             throw new Error('No data specified to send, should be an object');
         }
         requestData.postXml = this.build(data);
-        ['id_shop', 'id_group_shop'].forEach(param => {
-            for(let key in options) {
-                if(key.indexOf(param) !== -1) {
-                    requestOptions[key] = options[key];
-                }
-            }
-        });
-        let query = this.stringify(requestOptions);
+        this.checkKeys(['id_shop', 'id_group_shop'], options);
+        let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
         }
         return this.executeRequest('post', url, {form: requestData}).then(response => this.parse(response));
     }
     get(resource, options = {}) {
-        let url = this.resource(resource),
-            requestOptions = {};
+        let url = this.resource(resource);
         if(options.id) {
             url += options.id;
             delete options.id;
         }
-        ['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'].forEach(param => {
-            for(let key in options) {
-                if(key.indexOf(param) !== -1) {
-                    requestOptions[key] = options[key];
-                }
-            }
-        });
-        let query = this.stringify(requestOptions);
+        this.checkKeys(['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'], options);
+        let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
         }
@@ -85,7 +71,6 @@ class Preston {
     }
     edit(resource, options = {}) {
         let url = this.resource(resource),
-            requestOptions = {},
             requestData = {};
         if(!data || typeof data !== 'object') {
             throw new Error('No data specified to send, should be an object');
@@ -96,22 +81,15 @@ class Preston {
         url += options.id;
         delete options.id;
         requestData.putXml = this.build(data);
-        ['id_shop', 'id_group_shop'].forEach(param => {
-            for(let key in options) {
-                if(key.indexOf(param) !== -1) {
-                    requestOptions[key] = options[key];
-                }
-            }
-        });
-        let query = this.stringify(requestOptions);
+        this.checkKeys(['id_shop', 'id_group_shop'], options);
+        let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
         }
         return this.executeRequest('put', url, {form: requestData}).then(response => this.parse(response));
     }
     delete(resource, options = {}) {
-        let url = this.resource(resource),
-            requestOptions = {};
+        let url = this.resource(resource);
         if(!options.id) {
             throw new Error('Id not specified');
         }
@@ -121,38 +99,31 @@ class Preston {
             url += options.id;
         }
         delete options.id;
-        ['id_shop', 'id_group_shop'].forEach(param => {
-            for(let key in options) {
-                if(key.indexOf(param) !== -1) {
-                    requestOptions[key] = options[key];
-                }
-            }
-        });
-        let query = this.stringify(requestOptions);
+        this.checkKeys(['id_shop', 'id_group_shop'], options);
+        let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
         }
         return this.executeRequest('delete', url).then(response => this.parse(response));
     }
     head(resource, options = {}) {
-        let url = this.resource(resource),
-            requestOptions = {};
+        let url = this.resource(resource);
         if(options.id) {
             url += options.id;
             delete options.id;
         }
-        ['filter', 'display', 'sort', 'limit'].forEach(param => {
-            for(let key in options) {
-                if(key.indexOf(param) !== -1) {
-                    requestOptions[key] = options[key];
-                }
-            }
-        });
-        let query = this.stringify(requestOptions);
+        this.checkKeys(['filter', 'display', 'sort', 'limit'], options);
+        let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
         }
         return this.executeRequest('head', url).then(response => this.parse(response));
+    }
+    checkKeys(keys, options) {
+        Object
+            .keys(options)
+            .filter(k => keys.every(x => !~k.indexOf(x)))
+            .forEach(k => delete options[k]);
     }
     resource(resource = '') {
         return /^https?/.test(resource) ? resource : `${this.shopUrl}/api/${resource}/`;
