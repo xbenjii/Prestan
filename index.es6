@@ -87,7 +87,7 @@ class Preston {
         let url = this.resource(resource),
             requestOptions = {},
             requestData = {};
-        if(!data) {
+        if(!data || typeof data !== 'object') {
             throw new Error('No data specified to send, should be an object');
         }
         if(!options.id) {
