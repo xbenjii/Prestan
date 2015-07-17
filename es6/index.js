@@ -22,11 +22,16 @@ class Preston {
     executeRequest(method, url, options = {}) {
         this.debug(`Requesting[${method}] ${url} with options ${JSON.stringify(options)}`);
         return request[method](url, options).auth(this.key).catch(error => {
-            this.debug(`Error: [${error.error}]`);
+            this.debug(`Error: [${error}]`);
             return this.parse(error.error).then(parsedError => {
-                let thrownError = new Error(parsedError.prestashop.errors.error.message);
-                thrownError.code = parsedError.prestashop.errors.error.code;
-                throw thrownError;
+                let error = parsedError.prestashop.errors.error;
+                let errorToThrow = Array.isArray(error)
+                    ? new Error(error.map(e => e.message).join('\n'))
+                    : new Error(error.message)
+                if(error.code) {
+                    errorToThrow.code = code;
+                }
+                throw errorToThrow;
             });
         });
     }

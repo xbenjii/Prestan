@@ -54,11 +54,16 @@ var Preston = (function () {
 
             this.debug('Requesting[' + method + '] ' + url + ' with options ' + JSON.stringify(options));
             return _requestPromise2['default'][method](url, options).auth(this.key)['catch'](function (error) {
-                _this.debug('Error: [' + error.error + ']');
+                _this.debug('Error: [' + error + ']');
                 return _this.parse(error.error).then(function (parsedError) {
-                    var thrownError = new Error(parsedError.prestashop.errors.error.message);
-                    thrownError.code = parsedError.prestashop.errors.error.code;
-                    throw thrownError;
+                    var error = parsedError.prestashop.errors.error;
+                    var errorToThrow = Array.isArray(error) ? new Error(error.map(function (e) {
+                        return e.message;
+                    }).join('\n')) : new Error(error.message);
+                    if (error.code) {
+                        errorToThrow.code = code;
+                    }
+                    throw errorToThrow;
                 });
             });
         }
