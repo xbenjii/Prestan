@@ -62,7 +62,7 @@ class Preston {
             url += options.id;
             delete options.id;
         }
-        this.checkKeys(['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop'], options);
+        this.checkKeys(['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop', 'schema'], options);
         let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
