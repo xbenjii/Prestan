@@ -47,7 +47,7 @@ class Preston {
         let builder = new xml2js.Builder();
         return builder.buildObject(data);
     }
-    add(resource, data, options = {}) {
+    add(resource, data = {}, options = {}) {
         let url = this.resource(resource),
             requestData = {};
         if(!data || typeof data !== 'object') {
@@ -74,7 +74,7 @@ class Preston {
         }
         return this.executeRequest('get', url).then(response => this.parse(response));
     }
-    edit(resource, options = {}) {
+    edit(resource, options = {}, data = {}) {
         let url = this.resource(resource),
             requestData = {};
         if(!data || typeof data !== 'object') {
