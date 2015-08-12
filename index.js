@@ -61,7 +61,7 @@ var Preston = (function () {
                         return e.message;
                     }).join('\n')) : new Error(error.message);
                     if (error.code) {
-                        errorToThrow.code = erorr.code;
+                        errorToThrow.code = error.code;
                     }
                     throw errorToThrow;
                 });
