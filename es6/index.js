@@ -40,7 +40,8 @@ class Preston {
             return response;
         }
         return parseString(response, {
-            explicitArray: false
+            explicitArray: false,
+            trim: true
         });
     }
     build(data) {
