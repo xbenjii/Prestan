@@ -39,9 +39,9 @@ prestan.get('products', {
     id: 1
 }).then(function(response) {
     response.prestashop.product.price = '1.99';
-    return prestan.edit('products', {
+    return prestan.edit('products', response, {
         id: 1
-    }, response);
+    });
 }).catch(function(errors) {
     console.log(errors);
 });
