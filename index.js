@@ -93,11 +93,11 @@ var Preston = (function () {
             var options = arguments[2] === undefined ? {} : arguments[2];
 
             var url = this.resource(resource),
-                requestData = {};
+                requestData = '';
             if (!data || typeof data !== 'object') {
                 throw new Error('No data specified to send, should be an object');
             }
-            requestData.postXml = this.build(data);
+            requestData = this.build(data);
             this.checkKeys(['id_shop', 'id_group_shop'], options);
             var query = this.stringify(options);
             if (query.length) {
@@ -133,11 +133,11 @@ var Preston = (function () {
         value: function edit(resource) {
             var _this4 = this;
 
-            var options = arguments[1] === undefined ? {} : arguments[1];
-            var data = arguments[2] === undefined ? {} : arguments[2];
+            var data = arguments[1] === undefined ? {} : arguments[1];
+            var options = arguments[2] === undefined ? {} : arguments[2];
 
             var url = this.resource(resource),
-                requestData = {};
+                requestData = '';
             if (!data || typeof data !== 'object') {
                 throw new Error('No data specified to send, should be an object');
             }
@@ -146,7 +146,7 @@ var Preston = (function () {
             }
             url += options.id;
             delete options.id;
-            requestData.putXml = this.build(data);
+            requestData = this.build(data);
             this.checkKeys(['id_shop', 'id_group_shop'], options);
             var query = this.stringify(options);
             if (query.length) {

@@ -1,5 +1,3 @@
-'use strict';
-
 import qs from 'qs';
 import xml2js from 'xml2js';
 import Promise from 'bluebird';
@@ -25,9 +23,7 @@ class Preston {
             this.debug(`Error: [${error}]`);
             return this.parse(error.error).then(parsedError => {
                 let error = parsedError.prestashop.errors.error;
-                let errorToThrow = Array.isArray(error)
-                    ? new Error(error.map(e => e.message).join('\n'))
-                    : new Error(error.message)
+                let errorToThrow = Array.isArray(error) ? new Error(error.map(e => e.message).join('\n')) : new Error(error.message);
                 if(error.code) {
                     errorToThrow.code = error.code;
                 }
@@ -50,11 +46,11 @@ class Preston {
     }
     add(resource, data = {}, options = {}) {
         let url = this.resource(resource),
-            requestData = {};
+            requestData = '';
         if(!data || typeof data !== 'object') {
             throw new Error('No data specified to send, should be an object');
         }
-        requestData.postXml = this.build(data);
+        requestData = this.build(data);
         this.checkKeys(['id_shop', 'id_group_shop'], options);
         let query = this.stringify(options);
         if(query.length) {
@@ -75,9 +71,9 @@ class Preston {
         }
         return this.executeRequest('get', url).then(response => this.parse(response));
     }
-    edit(resource, options = {}, data = {}) {
+    edit(resource, data = {}, options = {}) {
         let url = this.resource(resource),
-            requestData = {};
+            requestData = '';
         if(!data || typeof data !== 'object') {
             throw new Error('No data specified to send, should be an object');
         }
@@ -86,7 +82,7 @@ class Preston {
         }
         url += options.id;
         delete options.id;
-        requestData.putXml = this.build(data);
+        requestData = this.build(data);
         this.checkKeys(['id_shop', 'id_group_shop'], options);
         let query = this.stringify(options);
         if(query.length) {
