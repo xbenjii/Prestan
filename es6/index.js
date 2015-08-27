@@ -51,7 +51,6 @@ class Preston {
             throw new Error('No data specified to send, should be an object');
         }
         requestData = this.build(data);
-        this.checkKeys(['id_shop', 'id_group_shop'], options);
         let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
@@ -64,7 +63,6 @@ class Preston {
             url += options.id;
             delete options.id;
         }
-        this.checkKeys(['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop', 'schema'], options);
         let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
@@ -83,7 +81,6 @@ class Preston {
         url += options.id;
         delete options.id;
         requestData = this.build(data);
-        this.checkKeys(['id_shop', 'id_group_shop'], options);
         let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
@@ -101,7 +98,6 @@ class Preston {
             url += options.id;
         }
         delete options.id;
-        this.checkKeys(['id_shop', 'id_group_shop'], options);
         let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
@@ -114,18 +110,11 @@ class Preston {
             url += options.id;
             delete options.id;
         }
-        this.checkKeys(['filter', 'display', 'sort', 'limit'], options);
         let query = this.stringify(options);
         if(query.length) {
             url += `?${query}`;
         }
         return this.executeRequest('head', url).then(response => this.parse(response));
-    }
-    checkKeys(keys, options) {
-        Object
-            .keys(options)
-            .filter(k => keys.every(x => !~k.indexOf(x)))
-            .forEach(k => delete options[k]);
     }
     resource(resource = '') {
         return /^https?/.test(resource) ? resource : `${this.shopUrl}/api/${resource}/`;

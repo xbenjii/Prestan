@@ -98,7 +98,6 @@ var Preston = (function () {
                 throw new Error('No data specified to send, should be an object');
             }
             requestData = this.build(data);
-            this.checkKeys(['id_shop', 'id_group_shop'], options);
             var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
@@ -119,7 +118,6 @@ var Preston = (function () {
                 url += options.id;
                 delete options.id;
             }
-            this.checkKeys(['filter', 'display', 'sort', 'limit', 'id_shop', 'id_group_shop', 'schema'], options);
             var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
@@ -147,7 +145,6 @@ var Preston = (function () {
             url += options.id;
             delete options.id;
             requestData = this.build(data);
-            this.checkKeys(['id_shop', 'id_group_shop'], options);
             var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
@@ -173,7 +170,6 @@ var Preston = (function () {
                 url += options.id;
             }
             delete options.id;
-            this.checkKeys(['id_shop', 'id_group_shop'], options);
             var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
@@ -194,24 +190,12 @@ var Preston = (function () {
                 url += options.id;
                 delete options.id;
             }
-            this.checkKeys(['filter', 'display', 'sort', 'limit'], options);
             var query = this.stringify(options);
             if (query.length) {
                 url += '?' + query;
             }
             return this.executeRequest('head', url).then(function (response) {
                 return _this6.parse(response);
-            });
-        }
-    }, {
-        key: 'checkKeys',
-        value: function checkKeys(keys, options) {
-            Object.keys(options).filter(function (k) {
-                return keys.every(function (x) {
-                    return ! ~k.indexOf(x);
-                });
-            }).forEach(function (k) {
-                return delete options[k];
             });
         }
     }, {
