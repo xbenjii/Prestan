@@ -26,7 +26,10 @@ var _requestPromise = require('request-promise');
 
 var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
+var _xmldom = require('xmldom');
+
 var parseString = _bluebird2['default'].promisify(_xml2js2['default'].parseString);
+var domParser = new _xmldom.DOMParser();
 
 var Preston = (function () {
     function Preston(shopUrl, key) {
@@ -42,7 +45,10 @@ var Preston = (function () {
         }
         this.shopUrl = shopUrl;
         this.key = key;
-        this.options = options;
+        var defaultOptions = {
+            parser: 'json'
+        };
+        this.options = Object.assign(defaultOptions, options);
     }
 
     _createClass(Preston, [{
@@ -70,19 +76,30 @@ var Preston = (function () {
     }, {
         key: 'parse',
         value: function parse(response) {
-            if (this.options.raw) {
-                return response;
+            switch (this.options.parser.toLowerCase()) {
+                case 'raw':
+                    return response;
+                case 'xml':
+                    return new domParser.parseFromString(response, 'text/xml');
+                case 'json':
+                /* falls through */
+                default:
+                    return parseString(response, {
+                        explicitArray: false,
+                        trim: true
+                    });
             }
-            return parseString(response, {
-                explicitArray: false,
-                trim: true
-            });
         }
     }, {
         key: 'build',
         value: function build(data) {
-            var builder = new _xml2js2['default'].Builder();
-            return builder.buildObject(data);
+            if (this.options.parser.toLowerCase() === 'json') {
+                var builder = new _xml2js2['default'].Builder();
+                return builder.buildObject(data);
+            } else if (this.options.parser.toLowerCase() === 'xml') {
+                return domParser.serializeToString(data);
+            }
+            return data;
         }
     }, {
         key: 'add',
