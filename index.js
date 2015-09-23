@@ -93,13 +93,17 @@ var Preston = (function () {
     }, {
         key: 'build',
         value: function build(data) {
-            if (this.options.parser.toLowerCase() === 'json') {
-                var builder = new _xml2js2['default'].Builder();
-                return builder.buildObject(data);
-            } else if (this.options.parser.toLowerCase() === 'xml') {
-                return domParser.serializeToString(data);
+            switch (this.options.parser.toLowerCase()) {
+                case 'raw':
+                    return data;
+                case 'xml':
+                    return domParser.serializeToString(data);
+                case 'json':
+                /* falls through */
+                default:
+                    var builder = new _xml2js2['default'].Builder();
+                    return builder.buildObject(data);
             }
-            return data;
         }
     }, {
         key: 'add',

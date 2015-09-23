@@ -52,13 +52,17 @@ class Preston {
         }
     }
     build(data) {
-        if(this.options.parser.toLowerCase() === 'json') {
-            let builder = new xml2js.Builder();
-            return builder.buildObject(data);
-        } else if (this.options.parser.toLowerCase() === 'xml') {
-            return domParser.serializeToString(data);
+        switch(this.options.parser.toLowerCase()) {
+            case 'raw':
+                return data;
+            case 'xml':
+                return domParser.serializeToString(data);
+            case 'json':
+                /* falls through */
+            default:
+                let builder = new xml2js.Builder();
+                return builder.buildObject(data);
         }
-        return data;
     }
     add(resource, data = {}, options = {}) {
         let url = this.resource(resource),
