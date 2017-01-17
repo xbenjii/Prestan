@@ -2,8 +2,10 @@ import qs from 'qs';
 import xml2js from 'xml2js';
 import Promise from 'bluebird';
 import request from 'request-promise';
+import {DOMParser} from 'xmldom';
 
 let parseString = Promise.promisify(xml2js.parseString);
+let domParser = new DOMParser();
 
 class Preston {
     constructor(shopUrl, key, options = {}) {
@@ -15,7 +17,10 @@ class Preston {
         }
         this.shopUrl = shopUrl;
         this.key = key;
-        this.options = options;
+        let defaultOptions = {
+            parser: 'json'
+        };
+        this.options = Object.assign(defaultOptions, options);
     }
     executeRequest(method, url, options = {}) {
         this.debug(`Requesting[${method}] ${url} with options ${JSON.stringify(options)}`);
@@ -32,17 +37,32 @@ class Preston {
         });
     }
     parse(response) {
-        if(this.options.raw) {
-            return response;
+        switch(this.options.parser.toLowerCase()) {
+            case 'raw':
+                return response;
+            case 'xml':
+                return new domParser.parseFromString(response, 'text/xml');
+            case 'json':
+                /* falls through */
+            default:
+                return parseString(response, {
+                    explicitArray: false,
+                    trim: true
+                });
         }
-        return parseString(response, {
-            explicitArray: false,
-            trim: true
-        });
     }
     build(data) {
-        let builder = new xml2js.Builder();
-        return builder.buildObject(data);
+        switch(this.options.parser.toLowerCase()) {
+            case 'raw':
+                return data;
+            case 'xml':
+                return domParser.serializeToString(data);
+            case 'json':
+                /* falls through */
+            default:
+                let builder = new xml2js.Builder();
+                return builder.buildObject(data);
+        }
     }
     add(resource, data = {}, options = {}) {
         let url = this.resource(resource),
